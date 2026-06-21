@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>One Page Site</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: #f4f4f4;
+    }
+    header {
+      background: #0066cc;
+      color: #fff;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    section {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .hero {
+      padding: 60px 20px;
+      text-align: center;
+    }
+    .hero h1 {
+      margin: 0 0 20px;
+      font-size: 2.8rem;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      color: #555;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+    .card {
+      padding: 20px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      background: #fafafa;
+    }
+    .card h3 {
+      margin-top: 0;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #222;
+      color: #fff;
+    }
+    .contact-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .contact-list li {
+      margin-bottom: 10px;
+    }
+    @media (max-width: 600px) {
+      header {
+        padding: 30px 10px;
+      }
+      .hero h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Ласкаво просимо на односторінковий сайт</h1>
+    <nav>
+      <a href="#about">Про нас</a>
+      <a href="#services">Послуги</a>
+      <a href="#contact">Контакти</a>
+    </nav>
+  </header>
+  <section class="hero" id="about">
+    <h1>Сучасний веб-сайт для вашого бізнесу</h1>
+    <p>Цей простий односторінковий сайт показує основні розділи: про нас, послуги та контакти. Він адаптується до мобільних пристроїв та добре виглядає на всіх екранах.</p>
+  </section>
+  <section id="services">
+    <h2>Наші послуги</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>Дизайн</h3>
+        <p>Створення сучасних та зручних інтерфейсів для вашого продукту.</p>
+      </div>
+      <div class="card">
+        <h3>Розробка</h3>
+        <p>Розробка веб-сайтів, що швидко працюють та легко керуються.</p>
+      </div>
+      <div class="card">
+        <h3>Підтримка</h3>
+        <p>Підтримка проекту на кожному етапі, оновлення та оптимізація.</p>
+      </div>
+    </div>
+  </section>
+  <section id="contact">
+    <h2>Контакти</h2>
+    <p>Зв'яжіться з нами, щоб обговорити ваш проект.</p>
+    <ul class="contact-list">
+      <li>Електронна пошта: info@example.com</li>
+      <li>Телефон: +380 00 000 0000</li>
+      <li>Адреса: м. Київ, Україна</li>
+    </ul>
+  </section>
+  <footer>
+    <p>© 2026 Односторінковий сайт. Всі права захищені.</p>
+  </footer>
+</body>
+</html>
