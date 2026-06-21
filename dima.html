@@ -2,50 +2,111 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
-<title>Фігня але ок</title>
+<title>Супер фігня v2</title>
 
 <style>
 body{
     margin:0;
     overflow:hidden;
-    background:black;
+    background:radial-gradient(circle,#111,#000);
 }
 
-#box{
-    width:100px;
-    height:100px;
-    background:red;
+.ball{
+    width:60px;
+    height:60px;
+    border-radius:50%;
     position:absolute;
-    border-radius:20px;
-    transition:0.1s;
+    pointer-events:none;
+    transform:translate(-50%,-50%);
+    box-shadow:0 0 30px currentColor;
+}
+
+.particle{
+    width:15px;
+    height:15px;
+    border-radius:50%;
+    position:absolute;
+    pointer-events:none;
 }
 </style>
 </head>
-
 <body>
 
-<div id="box"></div>
+<div class="ball" id="ball"></div>
 
 <script>
-let box = document.getElementById("box");
-let angle = 0;
+
+const ball=document.getElementById("ball");
+
+let mouseX=window.innerWidth/2;
+let mouseY=window.innerHeight/2;
+
+let x=mouseX;
+let y=mouseY;
 
 document.addEventListener("mousemove",(e)=>{
+    mouseX=e.clientX;
+    mouseY=e.clientY;
 
-    angle += 20;
-
-    let randomColor=
-    `rgb(
-    ${Math.random()*255},
-    ${Math.random()*255},
-    ${Math.random()*255}
-    )`;
-
-    box.style.left=e.clientX-50+"px";
-    box.style.top=e.clientY-50+"px";
-    box.style.background=randomColor;
-    box.style.transform=`rotate(${angle}deg)`;
+    createParticle(mouseX,mouseY);
 });
+
+function createParticle(x,y){
+
+    let p=document.createElement("div");
+    p.className="particle";
+
+    let size=Math.random()*15+5;
+    let color=`hsl(${Math.random()*360},100%,50%)`;
+
+    p.style.width=size+"px";
+    p.style.height=size+"px";
+    p.style.left=x+"px";
+    p.style.top=y+"px";
+    p.style.background=color;
+    p.style.boxShadow=`0 0 20px ${color}`;
+
+    document.body.appendChild(p);
+
+    let dx=(Math.random()-0.5)*100;
+    let dy=(Math.random()-0.5)*100;
+
+    p.animate([
+    {
+        transform:"translate(0,0)",
+        opacity:1
+    },
+    {
+        transform:`translate(${dx}px,${dy}px)`,
+        opacity:0
+    }
+    ],{
+        duration:1000
+    });
+
+    setTimeout(()=>{
+        p.remove();
+    },1000);
+
+}
+
+function animate(){
+
+    x+=(mouseX-x)*0.1;
+    y+=(mouseY-y)*0.1;
+
+    ball.style.left=x+"px";
+    ball.style.top=y+"px";
+
+    let hue=Date.now()/10;
+    ball.style.background=`hsl(${hue},100%,50%)`;
+    ball.style.color=`hsl(${hue},100%,50%)`;
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+
 </script>
 
 </body>
