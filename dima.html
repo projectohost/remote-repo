@@ -2,50 +2,155 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
-<title>Фігня але ок</title>
+<title>ФІГНЯ ULTIMATE</title>
 
 <style>
 body{
-    margin:0;
-    overflow:hidden;
-    background:black;
+margin:0;
+overflow:hidden;
+background:black;
+cursor:none;
 }
 
-#box{
-    width:100px;
-    height:100px;
-    background:red;
-    position:absolute;
-    border-radius:20px;
-    transition:0.1s;
+canvas{
+display:block;
+}
+
+#text{
+position:fixed;
+top:20px;
+left:20px;
+color:white;
+font-family:Arial;
+font-size:20px;
+text-shadow:0 0 10px cyan;
 }
 </style>
 </head>
 
 <body>
 
-<div id="box"></div>
+<div id="text">
+Рухай мишкою • Клік = вибух • Space = режим
+</div>
+
+<canvas id="c"></canvas>
 
 <script>
-let box = document.getElementById("box");
-let angle = 0;
+
+const canvas=document.getElementById("c");
+const ctx=canvas.getContext("2d");
+
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let mouse={
+x:canvas.width/2,
+y:canvas.height/2
+};
+
+let particles=[];
+let mode=0;
 
 document.addEventListener("mousemove",(e)=>{
+mouse.x=e.clientX;
+mouse.y=e.clientY;
 
-    angle += 20;
-
-    let randomColor=
-    `rgb(
-    ${Math.random()*255},
-    ${Math.random()*255},
-    ${Math.random()*255}
-    )`;
-
-    box.style.left=e.clientX-50+"px";
-    box.style.top=e.clientY-50+"px";
-    box.style.background=randomColor;
-    box.style.transform=`rotate(${angle}deg)`;
+for(let i=0;i<5;i++){
+particles.push({
+x:mouse.x,
+y:mouse.y,
+dx:(Math.random()-0.5)*10,
+dy:(Math.random()-0.5)*10,
+size:Math.random()*10+2,
+life:100,
+hue:Math.random()*360
 });
+}
+});
+
+document.addEventListener("click",()=>{
+
+for(let i=0;i<100;i++){
+
+particles.push({
+x:mouse.x,
+y:mouse.y,
+dx:(Math.random()-0.5)*30,
+dy:(Math.random()-0.5)*30,
+size:Math.random()*15+2,
+life:100,
+hue:Math.random()*360
+});
+
+}
+
+});
+
+document.addEventListener("keydown",(e)=>{
+if(e.code==="Space"){
+mode++;
+}
+});
+
+function draw(){
+
+if(mode%2==0){
+ctx.fillStyle="rgba(0,0,0,0.15)";
+}else{
+ctx.fillStyle="rgba(0,0,40,0.15)";
+}
+
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+for(let i=0;i<particles.length;i++){
+
+let p=particles[i];
+
+p.x+=p.dx;
+p.y+=p.dy;
+
+p.life--;
+p.size*=0.98;
+
+ctx.beginPath();
+
+ctx.fillStyle=
+`hsl(${p.hue+Date.now()/20},
+100%,50%)`;
+
+ctx.shadowBlur=20;
+ctx.shadowColor=
+`hsl(${p.hue},100%,50%)`;
+
+ctx.arc(
+p.x,
+p.y,
+p.size,
+0,
+Math.PI*2
+);
+
+ctx.fill();
+
+if(p.life<=0){
+particles.splice(i,1);
+i--;
+}
+
+}
+
+requestAnimationFrame(draw);
+
+}
+
+draw();
+
+window.addEventListener("resize",()=>{
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+});
+
 </script>
 
 </body>
