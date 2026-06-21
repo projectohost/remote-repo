@@ -2,110 +2,154 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
-<title>Супер фігня v2</title>
+<title>ФІГНЯ ULTIMATE</title>
 
 <style>
 body{
-    margin:0;
-    overflow:hidden;
-    background:radial-gradient(circle,#111,#000);
+margin:0;
+overflow:hidden;
+background:black;
+cursor:none;
 }
 
-.ball{
-    width:60px;
-    height:60px;
-    border-radius:50%;
-    position:absolute;
-    pointer-events:none;
-    transform:translate(-50%,-50%);
-    box-shadow:0 0 30px currentColor;
+canvas{
+display:block;
 }
 
-.particle{
-    width:15px;
-    height:15px;
-    border-radius:50%;
-    position:absolute;
-    pointer-events:none;
+#text{
+position:fixed;
+top:20px;
+left:20px;
+color:white;
+font-family:Arial;
+font-size:20px;
+text-shadow:0 0 10px cyan;
 }
 </style>
 </head>
+
 <body>
 
-<div class="ball" id="ball"></div>
+<div id="text">
+Рухай мишкою • Клік = вибух • Space = режим
+</div>
+
+<canvas id="c"></canvas>
 
 <script>
 
-const ball=document.getElementById("ball");
+const canvas=document.getElementById("c");
+const ctx=canvas.getContext("2d");
 
-let mouseX=window.innerWidth/2;
-let mouseY=window.innerHeight/2;
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
 
-let x=mouseX;
-let y=mouseY;
+let mouse={
+x:canvas.width/2,
+y:canvas.height/2
+};
+
+let particles=[];
+let mode=0;
 
 document.addEventListener("mousemove",(e)=>{
-    mouseX=e.clientX;
-    mouseY=e.clientY;
+mouse.x=e.clientX;
+mouse.y=e.clientY;
 
-    createParticle(mouseX,mouseY);
+for(let i=0;i<5;i++){
+particles.push({
+x:mouse.x,
+y:mouse.y,
+dx:(Math.random()-0.5)*10,
+dy:(Math.random()-0.5)*10,
+size:Math.random()*10+2,
+life:100,
+hue:Math.random()*360
+});
+}
 });
 
-function createParticle(x,y){
+document.addEventListener("click",()=>{
 
-    let p=document.createElement("div");
-    p.className="particle";
+for(let i=0;i<100;i++){
 
-    let size=Math.random()*15+5;
-    let color=`hsl(${Math.random()*360},100%,50%)`;
-
-    p.style.width=size+"px";
-    p.style.height=size+"px";
-    p.style.left=x+"px";
-    p.style.top=y+"px";
-    p.style.background=color;
-    p.style.boxShadow=`0 0 20px ${color}`;
-
-    document.body.appendChild(p);
-
-    let dx=(Math.random()-0.5)*100;
-    let dy=(Math.random()-0.5)*100;
-
-    p.animate([
-    {
-        transform:"translate(0,0)",
-        opacity:1
-    },
-    {
-        transform:`translate(${dx}px,${dy}px)`,
-        opacity:0
-    }
-    ],{
-        duration:1000
-    });
-
-    setTimeout(()=>{
-        p.remove();
-    },1000);
+particles.push({
+x:mouse.x,
+y:mouse.y,
+dx:(Math.random()-0.5)*30,
+dy:(Math.random()-0.5)*30,
+size:Math.random()*15+2,
+life:100,
+hue:Math.random()*360
+});
 
 }
 
-function animate(){
+});
 
-    x+=(mouseX-x)*0.1;
-    y+=(mouseY-y)*0.1;
+document.addEventListener("keydown",(e)=>{
+if(e.code==="Space"){
+mode++;
+}
+});
 
-    ball.style.left=x+"px";
-    ball.style.top=y+"px";
+function draw(){
 
-    let hue=Date.now()/10;
-    ball.style.background=`hsl(${hue},100%,50%)`;
-    ball.style.color=`hsl(${hue},100%,50%)`;
-
-    requestAnimationFrame(animate);
+if(mode%2==0){
+ctx.fillStyle="rgba(0,0,0,0.15)";
+}else{
+ctx.fillStyle="rgba(0,0,40,0.15)";
 }
 
-animate();
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+for(let i=0;i<particles.length;i++){
+
+let p=particles[i];
+
+p.x+=p.dx;
+p.y+=p.dy;
+
+p.life--;
+p.size*=0.98;
+
+ctx.beginPath();
+
+ctx.fillStyle=
+`hsl(${p.hue+Date.now()/20},
+100%,50%)`;
+
+ctx.shadowBlur=20;
+ctx.shadowColor=
+`hsl(${p.hue},100%,50%)`;
+
+ctx.arc(
+p.x,
+p.y,
+p.size,
+0,
+Math.PI*2
+);
+
+ctx.fill();
+
+if(p.life<=0){
+particles.splice(i,1);
+i--;
+}
+
+}
+
+requestAnimationFrame(draw);
+
+}
+
+draw();
+
+window.addEventListener("resize",()=>{
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+});
 
 </script>
 
