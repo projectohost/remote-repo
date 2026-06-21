@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Фігня але ок</title>
+
+<style>
+body{
+    margin:0;
+    overflow:hidden;
+    background:black;
+}
+
+#box{
+    width:100px;
+    height:100px;
+    background:red;
+    position:absolute;
+    border-radius:20px;
+    transition:0.1s;
+}
+</style>
+</head>
+
+<body>
+
+<div id="box"></div>
+
+<script>
+let box = document.getElementById("box");
+let angle = 0;
+
+document.addEventListener("mousemove",(e)=>{
+
+    angle += 20;
+
+    let randomColor=
+    `rgb(
+    ${Math.random()*255},
+    ${Math.random()*255},
+    ${Math.random()*255}
+    )`;
+
+    box.style.left=e.clientX-50+"px";
+    box.style.top=e.clientY-50+"px";
+    box.style.background=randomColor;
+    box.style.transform=`rotate(${angle}deg)`;
+});
+</script>
+
+</body>
+</html>
