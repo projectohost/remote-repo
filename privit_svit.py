@@ -1,1 +1,1 @@
-bos kfc, while tho, absolute programming, serhiy privit
+bos kfc, while tho, absolute programming, serhiy privit print("e")
