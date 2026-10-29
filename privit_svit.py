@@ -1,1 +1,1 @@
-bos kfc, while tho, absolute programming, serhiy
+bos kfc, while tho, absolute programming, serhiy privit
