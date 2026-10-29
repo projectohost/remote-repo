@@ -1,2 +1,2 @@
 # перший текст
-,dkdkmls,
+dkdkmls,
