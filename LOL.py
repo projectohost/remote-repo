@@ -4,4 +4,4 @@ arabu
 aramzamzam
 kakulyka
 lukian gey
-в нього малий пеніс
+в нього мікропеніс 
